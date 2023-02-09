@@ -46,7 +46,8 @@ const Signup = (props) => {
           nom: patientInfo.nom,
           prenom: patientInfo.prenom,
           birth: patientInfo.birth,
-          gender: patientGender
+          gender: patientGender,
+          ordonnances: []
         })
       } catch (error) {
         console.error(error);
