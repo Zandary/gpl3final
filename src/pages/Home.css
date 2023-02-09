@@ -1,0 +1,16 @@
+.Home {
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+}
+
+.credentialWrapper {
+    display: flex;
+    width: 100%;
+    justify-content: space-evenly;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
