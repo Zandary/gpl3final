@@ -7,10 +7,13 @@ import {
   Routes
 } from 'react-router-dom';
 import Welcome from './pages/Welcome/Welcome';
+import WelcomeWrapper from './pages/WelcomePharmaAndPatient/WelcomeWrapper';
+import NavBarre from './components/NavBarre/NavBarre';
 
 function App() {
   return (
     <div className="App">
+      <NavBarre/>
       <Router>
         <Routes>
           <Route exact path="/" element={<LandingPage/>} />
@@ -19,6 +22,8 @@ function App() {
           <Route path="/doctorLogin" element={<Home user='doctor'/>} />
           <Route path="/patientLogin" element={<Home user='patient'/>} />
           <Route path="/pharmaLogin" element={<Home user='pharma'/>} />
+          <Route path="/welcomePharma" element={<WelcomeWrapper user='pharma'/>} />
+          <Route path="/welcomePatient" element={<WelcomeWrapper user='patient'/>} />
         </Routes>
       </Router>
     </div>

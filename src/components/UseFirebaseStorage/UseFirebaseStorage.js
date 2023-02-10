@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import firebase from "firebase/compat/app";
 import "firebase/compat/storage";
 
@@ -28,7 +28,7 @@ function useFirebaseStorage(callback) {
           callback(json);
         });
     });
-  }, []);
+  }, );
 
   return data;
 }
