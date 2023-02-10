@@ -2,7 +2,7 @@ import './Login.css';
 import React, { useState }  from 'react'
 import firebase from '../../firebase';
 import { useNavigate } from "react-router-dom";
-import { Button } from "react-bootstrap";
+import { Button, Stack } from "react-bootstrap";
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -31,9 +31,11 @@ function Login() {
         })
       ) : (
         <form onSubmit={handleSignIn}>
-          <input type="email" placeholder='E-mail' value={email} onChange={(event) => setEmail(event.target.value)} />
-          <input type="password" placeholder='Mot de passe' value={password} onChange={(event) => setPassword(event.target.value)} />
-          <Button type="submit">Sign in</Button>
+          <Stack gap={2}>
+            <input type="email" placeholder='E-mail' value={email} onChange={(event) => setEmail(event.target.value)} />
+            <input type="password" placeholder='Mot de passe' value={password} onChange={(event) => setPassword(event.target.value)} />
+            <Button type="submit">Sign in</Button>
+          </Stack>
         </form>
       )}
     </div>

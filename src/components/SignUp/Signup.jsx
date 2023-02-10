@@ -3,7 +3,7 @@ import firebase from 'firebase/compat/app';
 // import firebase from '../../firebase'
 import 'firebase/auth';
 import 'firebase/compat/firestore';
-import { Button } from 'react-bootstrap';
+import { Stack, Button, Container, Row, Col } from 'react-bootstrap';
 
 
 const Signup = (props) => {
@@ -55,32 +55,41 @@ const Signup = (props) => {
     }
 
       return (
-        <div className='bordure'>
+        <Container className='bordure'>
+          
           <p>Pour vous incrire, c'est ici.</p>
           {user ? (
             <div>
               <h1>Hello, {user.email}</h1>
-              <button onClick={() => firebase.auth().signOut()}>Sign out</button>
+              <Button variant="primary" onClick={() => firebase.auth().signOut()}>Sign out</Button>
             </div>
           ) : (
             <form onSubmit={handlePatientSignUp}>
-              <input type="email" placeholder='E-mail' value={email} onChange={(event) => setEmail(event.target.value)} />
-              <input type="password" placeholder='Mot de passe' value={password1} onChange={(event) => setPassword1(event.target.value)} />
-              <input type="password" placeholder='Confirmez votre mot de passe' value={password2} onChange={(event) => setPassword2(event.target.value)} />
-              <input type="text" placeholder='Nom' value={patientInfo.nom} onChange={(event) => setPatientInfo({...patientInfo, nom: event.target.value})} />
-              <input type="text" placeholder='Prenom' value={patientInfo.prenom} onChange={(event) => setPatientInfo({...patientInfo, prenom: event.target.value})} />
-              <div>
-                <label htmlFor="start">Date de naissance:</label>
-                <input type="date" id="start" name="trip-start" value={patientInfo.birth} onChange={(event) => setPatientInfo({...patientInfo, birth: event.target.value})} min="1900-01-01" max="2023-12-31"/>
-              </div>
-              <input type="radio" id="h" name="fav_language" value="homme" onChange={(event) => {setPatientGender(event.target.value)}}/>
-              <label htmlFor="h">Homme</label><br/>
-              <input type="radio" id="f" name="fav_language" value="femme" onChange={(event) => {setPatientGender(event.target.value)}}/>
-              <label htmlFor="f">Femme</label><br/>
-              <Button variant="primary" type="submit">Sign up</Button>
+              <Stack gap={2}>
+                <input type="email" placeholder='E-mail' value={email} onChange={(event) => setEmail(event.target.value)} />
+                <input type="password" placeholder='Mot de passe' value={password1} onChange={(event) => setPassword1(event.target.value)} />
+                <input type="password" placeholder='Confirmez votre mot de passe' value={password2} onChange={(event) => setPassword2(event.target.value)} />
+                <input type="text" placeholder='Nom' value={patientInfo.nom} onChange={(event) => setPatientInfo({...patientInfo, nom: event.target.value})} />
+                <input type="text" placeholder='Prenom' value={patientInfo.prenom} onChange={(event) => setPatientInfo({...patientInfo, prenom: event.target.value})} />
+                <div>
+                  <label htmlFor="start">Date de naissance:</label>
+                  <input type="date" id="start" name="trip-start" value={patientInfo.birth} onChange={(event) => setPatientInfo({...patientInfo, birth: event.target.value})} min="1900-01-01" max="2023-12-31"/>
+                </div>
+
+                <Container>
+                  <Row>
+                    <Col><input type="radio" id="h" name="fav_language" value="homme" onChange={(event) => {setPatientGender(event.target.value)}}/></Col>
+                    <Col><label htmlFor="h">Homme</label></Col>
+                    <Col><input type="radio" id="f" name="fav_language" value="femme" onChange={(event) => {setPatientGender(event.target.value)}}/></Col>
+                    <Col><label htmlFor="f">Femme</label></Col>                    
+                  </Row>
+                </Container>
+
+                <Button variant="success" type="submit">Créer mon compte</Button>
+              </Stack>
             </form>
           )}
-        </div>
+        </Container>
       );
   } else if (props.user === "doctor"){
       ///////////////////////////////////////////////////////////
@@ -114,15 +123,17 @@ const Signup = (props) => {
           {user ? (
             <div>
               <h1>Hello, {user.email}</h1>
-              <button onClick={() => firebase.auth().signOut()}>Sign out</button>
+              <Button variant="success" onClick={() => firebase.auth().signOut()}>Sign out</Button>
             </div>
           ) : (
             <form onSubmit={handleSignUp}>
-              <input type="email" placeholder='E-mail' value={email} onChange={(event) => setEmail(event.target.value)} />
-              <input type="password" placeholder='Mot de passe' value={password1} onChange={(event) => setPassword1(event.target.value)} />
-              <input type="text" placeholder='Nom' value={doctorInfo.nom} onChange={(event) => setDoctorInfo({...doctorInfo, nom: event.target.value})} />
-              <input type="text" placeholder='Prenom' value={doctorInfo.prenom} onChange={(event) => setDoctorInfo({...doctorInfo, prenom: event.target.value})} />
-              <Button variant="primary" type="submit">Sign up</Button>
+              <Stack gap={2}>
+                <input type="email" placeholder='E-mail' value={email} onChange={(event) => setEmail(event.target.value)} />
+                <input type="password" placeholder='Mot de passe' value={password1} onChange={(event) => setPassword1(event.target.value)} />
+                <input type="text" placeholder='Nom' value={doctorInfo.nom} onChange={(event) => setDoctorInfo({...doctorInfo, nom: event.target.value})} />
+                <input type="text" placeholder='Prenom' value={doctorInfo.prenom} onChange={(event) => setDoctorInfo({...doctorInfo, prenom: event.target.value})} />
+                <Button variant="success" type="submit">Créer mon compte</Button>
+              </Stack>
             </form>
           )}
         </div>

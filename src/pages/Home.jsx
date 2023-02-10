@@ -2,18 +2,23 @@ import React from 'react'
 import Login from '../components/Login/Login'
 import Signup from '../components/SignUp/Signup'
 import './Home.css'
-
+import { Container, Row, Col } from 'react-bootstrap';
 
 const Home = (props) => {
   return (
-    <div className='Home'>
+    <Container className='Home'>
       <h1>Bienvenue sur E-Pharma</h1>
-      <div className='credentialWrapper'>
-        <Login/>
-        <Signup user={props.user}/>
-      </div>
+      <Row>
+          <Col>
+            <Login/>
+          </Col>
+          <Col>
+            <Signup user={props.user}/>
+          </Col>
+      </Row>
+        
       
-    </div>
+    </Container>
   )
 }
 

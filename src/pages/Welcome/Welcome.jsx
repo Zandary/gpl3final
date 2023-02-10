@@ -4,6 +4,7 @@ import firebase from '../../firebase';
 import 'firebase/compat/firestore';
 import { useNavigate } from "react-router-dom";
 import { Button, Form, Container, Row, Col, ListGroup  } from 'react-bootstrap';
+import DisplayData from '../../components/UseFirebaseStorage/DisplayData';
 
 const Welcome = () => {
     const location = useLocation();
@@ -32,7 +33,7 @@ const Welcome = () => {
     }, []);
 
     const handleChange = (event) => {
-        setSearchedPatient(event.target.value)
+        setSearchedPatient(event.target.value);
       }    
 
     useEffect(() => {
@@ -54,7 +55,7 @@ const Welcome = () => {
                     <Form.Label>Nom</Form.Label>
                     <Form.Control type="text" onChange={handleChange} value={searchedPatient} placeholder="Entrez le nom du patient" />
                     <Form.Text className="text-muted">
-                      We'll never share your email with anyone else.
+                      Recherchez le nom d'un patient pour commencer
                     </Form.Text>
                   </Form.Group>
                 </Form>
@@ -66,16 +67,17 @@ const Welcome = () => {
           
           <Row>
             <Col>
-              <ul>
-                
-              </ul>
+              Si le nom du patient n'est pas listé ici, alors il/elle n'a peut être pas encore de compte.
               <ListGroup>
                 {searchResults.map(item => (
                   <ListGroup.Item key={item.id}>{item.nom + " " + item.prenom}</ListGroup.Item>
                 ))}
               </ListGroup>
             </Col>
-            <Col>free col</Col>
+            <Col>
+              Medlists:
+              <DisplayData/>
+            </Col>
           </Row>
           <Button variant="primary" onClick={() => {firebase.auth().signOut(); navigate("/landing")}}>Sign out</Button>
         </Container>
