@@ -18,7 +18,7 @@ const MedicineForm = (props) => {
   const db = firebase.firestore();
   const collectionRef = db.collection("patients");
 
-  const updateDocumentByField = (field, value, newData) => {
+  const addMedicine = (field, value, newData) => {
     collectionRef
       .where(field, "==", value)
       .get()
@@ -49,7 +49,7 @@ const MedicineForm = (props) => {
   };
 
   // Example usage
-  updateDocumentByField("mail", "tommy@yahoo.com", {
+  addMedicine("mail", "tommy@yahoo.com", {
     ordonnances: ["newValue2", "newValue2"],
   });
 

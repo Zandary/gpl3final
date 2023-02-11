@@ -8,7 +8,7 @@ function NavBarre() {
   return (
     <Navbar bg="light" className="shadow p-1 mb-3 bg-white rounded" expand="lg">
       <Container>
-        <Navbar.Brand href="#home">
+        <Navbar.Brand href="/">
           {" "}
           <img src={gplIcon} className="Logo" alt="Logo" /> E-Pharma
         </Navbar.Brand>

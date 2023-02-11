@@ -9,7 +9,8 @@ const firebaseConfig = {
     storageBucket: "gpl3-cc9ca.appspot.com",
     messagingSenderId: "20444428493",
     appId: "1:20444428493:web:bb2bf391efb6a3239a1184",
-    measurementId: "G-QLYPV3HS3N"
+    measurementId: "G-QLYPV3HS3N",
+    databaseURL: "https://gpl3-cc9ca-default-rtdb.europe-west1.firebasedatabase.app/",
 };
 
 firebase.initializeApp(firebaseConfig);
