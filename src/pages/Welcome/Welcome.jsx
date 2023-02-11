@@ -49,27 +49,45 @@ const Welcome = () => {
   }, [searchedPatient, patientLists]);
 
   return (
-    <Container>
+    <Container className="mt-2">
       <Row>
         <Col>
-          {/* <h1>Hello, {location.state.email.replace("@gmail.com","").replace(location.state.email[0], location.state.email[0].toUpperCase())}</h1> */}
-          <h1>Hello,</h1>
-          <div className="searchPatient">
-            <Form>
-              <Form.Group className="mb-3" controlId="formBasicEmail">
-                <Form.Label>Nom</Form.Label>
-                <Form.Control
-                  type="text"
-                  onChange={handleChange}
-                  value={searchedPatient}
-                  placeholder="Entrez le nom du patient"
-                />
-                <Form.Text className="text-muted">
-                  Recherchez le nom d'un patient pour commencer
-                </Form.Text>
-              </Form.Group>
-            </Form>
-          </div>
+          <Row>
+            {/* <h1>Hello, {location.state.email.replace("@gmail.com","").replace(location.state.email[0], location.state.email[0].toUpperCase())}</h1> */}
+            <h1>Hello,</h1>
+            <div className="searchPatient">
+              <Form>
+                <Form.Group className="mb-3" controlId="formBasicEmail">
+                  <Form.Label>Nom</Form.Label>
+                  <Form.Control
+                    type="text"
+                    onChange={handleChange}
+                    value={searchedPatient}
+                    placeholder="Entrez le nom du patient"
+                  />
+                  <Form.Text className="text-muted">
+                    Recherchez le nom d'un patient pour commencer
+                  </Form.Text>
+                </Form.Group>
+              </Form>
+            </div>
+          </Row>
+
+          <Row>
+            Si le nom du patient n'est pas listé ici, alors il/elle n'a peut
+            être pas encore de compte.
+            <ListGroup>
+              {searchResults.map((item) => (
+                <ListGroup.Item
+                  key={item.id}
+                  onClick={(e) => setPatient(e.target.innerText)}
+                >
+                  {item.nom + " " + item.prenom}
+                </ListGroup.Item>
+              ))}
+            </ListGroup>
+            <Col>Medlists:</Col>
+          </Row>
         </Col>
 
         <Col>
@@ -78,23 +96,6 @@ const Welcome = () => {
         </Col>
       </Row>
 
-      <Row>
-        <Col>
-          Si le nom du patient n'est pas listé ici, alors il/elle n'a peut être
-          pas encore de compte.
-          <ListGroup>
-            {searchResults.map((item) => (
-              <ListGroup.Item
-                key={item.id}
-                onClick={(e) => setPatient(e.target.innerText)}
-              >
-                {item.nom + " " + item.prenom}
-              </ListGroup.Item>
-            ))}
-          </ListGroup>
-        </Col>
-        <Col>Medlists:</Col>
-      </Row>
       <Button
         variant="primary"
         onClick={() => {

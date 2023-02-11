@@ -1,4 +1,6 @@
 import React from "react";
+import firebase from "../../firebase";
+import "firebase/compat/firestore";
 import {
   Container,
   Card,
@@ -13,8 +15,46 @@ import {
 import "./MedicineForm.css";
 
 const MedicineForm = (props) => {
+  const db = firebase.firestore();
+  const collectionRef = db.collection("patients");
+
+  const updateDocumentByField = (field, value, newData) => {
+    collectionRef
+      .where(field, "==", value)
+      .get()
+      .then((snapshot) => {
+        if (snapshot.empty) {
+          console.log(`No documents with "${field}" equal to "${value}" found`);
+          return;
+        }
+        snapshot.forEach((doc) => {
+          doc.ref
+            .update(newData)
+            .then(() => {
+              console.log(
+                `Document with "${field}" equal to "${value}" updated`
+              );
+            })
+            .catch((error) => {
+              console.error(`Error updating document: `, error);
+            });
+        });
+      })
+      .catch((error) => {
+        console.error(
+          `Error getting document with "${field}" equal to "${value}": `,
+          error
+        );
+      });
+  };
+
+  // Example usage
+  updateDocumentByField("mail", "tommy@yahoo.com", {
+    ordonnances: ["newValue2", "newValue2"],
+  });
+
   return (
-    <Card bsClass="medForm">
+    <Card bsclass="medForm">
       <Card.Header>Medicine 1</Card.Header>
       <Card.Body>
         <Container>

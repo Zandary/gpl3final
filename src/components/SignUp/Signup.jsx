@@ -9,7 +9,6 @@ import {
   Col,
   Stack,
   Form,
-  InputGroup,
   Card,
   Button,
 } from "react-bootstrap";
@@ -18,6 +17,7 @@ const Signup = (props) => {
   const [email, setEmail] = useState("");
   const [password1, setPassword1] = useState("");
   const [password2, setPassword2] = useState("");
+  const [alert, setAlert] = useState("");
   const [patientInfo, setPatientInfo] = useState({
     mail: "",
     nom: "",
@@ -70,6 +70,17 @@ const Signup = (props) => {
       }
     };
 
+    //Email
+    function validateEmail(email) {
+      let re =
+        /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      if (!re.test(email.value)) {
+        setAlert("Invalid email address");
+        return false;
+      }
+      return true;
+    }
+
     return (
       <Container className="bordure">
         {user ? (
@@ -89,7 +100,9 @@ const Signup = (props) => {
                     type="email"
                     placeholder="E-mail"
                     value={email}
-                    onChange={(event) => setEmail(event.target.value)}
+                    onChange={(event) => {
+                      setEmail(event.target.value);
+                    }}
                     size="sm"
                   />
                   <Form.Control
@@ -103,7 +116,9 @@ const Signup = (props) => {
                     type="password"
                     placeholder="Confirmez votre mot de passe"
                     value={password2}
-                    onChange={(event) => setPassword2(event.target.value)}
+                    onChange={(event) => {
+                      setPassword2(event.target.value);
+                    }}
                     size="sm"
                   />
                   <Form.Control
@@ -181,6 +196,8 @@ const Signup = (props) => {
                       </Col>
                     </Row>
                   </Container>
+
+                  <p>{alert}</p>
 
                   <Button variant="success" type="submit">
                     Créer mon compte
