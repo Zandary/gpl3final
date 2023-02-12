@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import firebase from "../../firebase";
 import {
   Container,
   Row,
@@ -12,7 +13,7 @@ import {
   Dropdown,
 } from "react-bootstrap";
 import "firebase/compat/firestore";
-import { getDatabase, ref, push } from "firebase/database";
+import { getDatabase, ref, push, child, get } from "firebase/database";
 // import MedicineForm from "../MedicineForm/MedicineForm";
 
 const CreateOrdonnance = (props) => {
@@ -28,9 +29,10 @@ const CreateOrdonnance = (props) => {
       forme: "",
       frequence: "",
       quantite: "",
+      doctor: "",
     },
   });
-
+  console.log(patient.nom, patient.prenom);
   //get all record in firestore {could not working anymore}
   // useEffect(() => {
   //   const db = firebase.firestore();
@@ -50,16 +52,16 @@ const CreateOrdonnance = (props) => {
   //     });
   // }, []);
 
-  useEffect(() => {
-    patientLists.forEach((element) => {
-      if (
-        (element.nom + " " + element.prenom).toLowerCase() ===
-        props.patient.toLowerCase()
-      ) {
-        setPatient(element);
-      }
-    });
-  }, [props.patient, patientLists]);
+  // useEffect(() => {
+  //   patientLists.forEach((element) => {
+  //     if (
+  //       (element.nom + " " + element.prenom).toLowerCase() ===
+  //       props.patient.toLowerCase()
+  //     ) {
+  //       setPatient(element);
+  //     }
+  //   });
+  // }, [props.patient, patientLists]);
 
   function patientAge(params) {
     let currentYear = new Date().getFullYear();
@@ -71,7 +73,10 @@ const CreateOrdonnance = (props) => {
     e.preventDefault();
     const db = getDatabase();
     push(
-      ref(db, `patients/${patient.nom + " " + patient.prenom}/ordonnances`),
+      ref(
+        db,
+        `patients/${props.patientNom + " " + props.patientPrenom}/ordonnances`
+      ),
       {
         denomination: patient.medicaments.denomination,
         forme: patient.medicaments.forme,
@@ -96,7 +101,7 @@ const CreateOrdonnance = (props) => {
                       <Form.Control
                         type="text"
                         placeholder="Nom et Prenom"
-                        value={patient.nom + " " + patient.prenom}
+                        value={props.patientNom + " " + props.patientPrenom}
                         aria-label="Disabled input example"
                         disabled
                         readOnly
@@ -108,9 +113,9 @@ const CreateOrdonnance = (props) => {
                         type="text"
                         placeholder="Genre"
                         value={
-                          patient.gender +
+                          props.patientGenre +
                           " " +
-                          patientAge(patient.birth) +
+                          patientAge(props.patientBirth) +
                           " ans"
                         }
                         aria-label="Disabled input example"

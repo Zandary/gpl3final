@@ -4,6 +4,7 @@ import "firebase/compat/firestore";
 import { useNavigate } from "react-router-dom";
 import { Button, Form, Container, Row, Col, ListGroup } from "react-bootstrap";
 import CreateOrdonnance from "../../components/CreateOrdonnance/CreateOrdonnance";
+import { getDatabase, ref, child, get } from "firebase/database";
 
 const Welcome = () => {
   // const location = useLocation();
@@ -12,7 +13,7 @@ const Welcome = () => {
   const [searchedPatient, setSearchedPatient] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [patientLists, setPatientLists] = useState([]);
-  const [patient, setPatient] = useState("");
+  const [patient, setPatient] = useState({});
 
   // useEffect(() => {
   //   const db = firebase.firestore();
@@ -35,6 +36,28 @@ const Welcome = () => {
   const handleChange = (event) => {
     setSearchedPatient(event.target.value);
   };
+
+  //Getting all patients list
+  const dbRef = ref(getDatabase());
+  useEffect(() => {
+    get(child(dbRef, "patients"))
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          console.log(snapshot.val());
+          let tmp = [];
+          for (const key in snapshot.val()) {
+            tmp.push(snapshot.val()[key]);
+          }
+          setPatientLists(tmp);
+          console.log(patientLists);
+        } else {
+          console.log("No data available");
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
 
   useEffect(() => {
     const results = patientLists.filter(
@@ -80,7 +103,16 @@ const Welcome = () => {
               {searchResults.map((item) => (
                 <ListGroup.Item
                   key={item.id}
-                  onClick={(e) => setPatient(e.target.innerText)}
+                  onClick={(e) => {
+                    setPatient(JSON.parse(e.target.dataset.value));
+                    console.log(
+                      patient.nom,
+                      patient.prenom,
+                      patient.gender,
+                      patient.birth
+                    );
+                  }}
+                  data-value={JSON.stringify(item)}
                 >
                   {item.nom + " " + item.prenom}
                 </ListGroup.Item>
@@ -92,7 +124,12 @@ const Welcome = () => {
 
         <Col>
           {/* Faut placer un component pour creation de prescription ici si c un toubib */}
-          <CreateOrdonnance patient={patient} />
+          <CreateOrdonnance
+            patientNom={patient.nom}
+            patientPrenom={patient.prenom}
+            patientGenre={patient.gender}
+            patientBirth={patient.birth}
+          />
         </Col>
       </Row>
 

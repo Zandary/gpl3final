@@ -229,6 +229,10 @@ const Signup = (props) => {
           .auth()
           .createUserWithEmailAndPassword(email, password1);
         setUser(response.user);
+
+        localStorage.setItem("user", "doctor");
+        localStorage.setItem("name", doctorInfo.nom);
+        localStorage.setItem("isLoggedIn", "true");
       } catch (error) {
         console.error(error);
       }

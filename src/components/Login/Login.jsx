@@ -18,7 +18,12 @@ function Login(props) {
         .signInWithEmailAndPassword(email, password)
         .then(function () {
           // Redirect to the personalized welcome page
-          navigate("/welcome", { replace: true });
+          if (localStorage.getItem("user") === "doctor") {
+            navigate("/welcome", { replace: true });
+          } else {
+            navigate("/welcomePatient", { replace: true });
+          }
+
           // Get the user's ID token
           localStorage.setItem("email", email);
           localStorage.setItem("isLoggedIn", "true");
