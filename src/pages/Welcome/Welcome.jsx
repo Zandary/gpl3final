@@ -14,23 +14,23 @@ const Welcome = () => {
   const [patientLists, setPatientLists] = useState([]);
   const [patient, setPatient] = useState("");
 
-  useEffect(() => {
-    const db = firebase.firestore();
-    const collectionRef = db.collection("patients");
+  // useEffect(() => {
+  //   const db = firebase.firestore();
+  //   const collectionRef = db.collection("patients");
 
-    collectionRef
-      .get()
-      .then((querySnapshot) => {
-        const newData = [];
-        querySnapshot.forEach((doc) => {
-          newData.push({ id: doc.id, ...doc.data() });
-        });
-        setPatientLists(newData);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, []);
+  //   collectionRef
+  //     .get()
+  //     .then((querySnapshot) => {
+  //       const newData = [];
+  //       querySnapshot.forEach((doc) => {
+  //         newData.push({ id: doc.id, ...doc.data() });
+  //       });
+  //       setPatientLists(newData);
+  //     })
+  //     .catch((error) => {
+  //       console.error(error);
+  //     });
+  // }, []);
 
   const handleChange = (event) => {
     setSearchedPatient(event.target.value);
@@ -54,7 +54,7 @@ const Welcome = () => {
         <Col>
           <Row>
             {/* <h1>Hello, {location.state.email.replace("@gmail.com","").replace(location.state.email[0], location.state.email[0].toUpperCase())}</h1> */}
-            <h1>Hello,</h1>
+            <h1>Hello, {localStorage.getItem("email")}</h1>
             <div className="searchPatient">
               <Form>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
@@ -101,6 +101,8 @@ const Welcome = () => {
         onClick={() => {
           firebase.auth().signOut();
           navigate("/landing");
+          localStorage.setItem("email", "");
+          localStorage.setItem("isLoggedIn", "false");
         }}
       >
         Sign out

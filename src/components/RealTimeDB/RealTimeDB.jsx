@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import firebase from "../../firebase";
 import { getDatabase, ref, push } from "firebase/database";
 
 const RealTimeDB = () => {

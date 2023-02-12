@@ -2,18 +2,9 @@ import "./Login.css";
 import React, { useState } from "react";
 import firebase from "../../firebase";
 import { useNavigate } from "react-router-dom";
-import {
-  Container,
-  Row,
-  Col,
-  Stack,
-  Form,
-  InputGroup,
-  Card,
-  Button,
-} from "react-bootstrap";
+import { Stack, Form, Card, Button } from "react-bootstrap";
 
-function Login() {
+function Login(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -28,9 +19,12 @@ function Login() {
         .then(function () {
           // Redirect to the personalized welcome page
           navigate("/welcome", { replace: true });
+          // Get the user's ID token
+          localStorage.setItem("email", email);
+          localStorage.setItem("isLoggedIn", "true");
+          localStorage.setItem("user", "medecin");
         });
 
-      // Get the user's ID token
       // const idToken = await user.getIdToken();
 
       // Store the ID token in local storage

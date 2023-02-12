@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Card, Accordion } from "react-bootstrap";
+import { Container, Accordion } from "react-bootstrap";
 
 const Commandes = () => {
   return (

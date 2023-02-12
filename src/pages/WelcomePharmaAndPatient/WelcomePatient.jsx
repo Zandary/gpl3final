@@ -1,9 +1,7 @@
-import React from 'react'
+import React from "react";
 
 const WelcomePatient = () => {
-  return (
-    <div>WelcomePatient</div>
-  )
-}
+  return <div>Welcome {localStorage.getItem("name")}</div>;
+};
 
-export default WelcomePatient
+export default WelcomePatient;

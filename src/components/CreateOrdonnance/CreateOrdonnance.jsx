@@ -8,10 +8,12 @@ import {
   InputGroup,
   Card,
   Button,
+  DropdownButton,
+  Dropdown,
 } from "react-bootstrap";
-import firebase from "../../firebase";
 import "firebase/compat/firestore";
-import MedicineForm from "../MedicineForm/MedicineForm";
+import { getDatabase, ref, push } from "firebase/database";
+// import MedicineForm from "../MedicineForm/MedicineForm";
 
 const CreateOrdonnance = (props) => {
   const [patientLists, setPatientLists] = useState([]);
@@ -20,25 +22,33 @@ const CreateOrdonnance = (props) => {
     prenom: "Doe",
     birth: "1988-05-08",
     gender: "Homme",
+    medicaments: {
+      denomination: "",
+      duree: 0,
+      forme: "",
+      frequence: "",
+      quantite: "",
+    },
   });
 
-  useEffect(() => {
-    const db = firebase.firestore();
-    const collectionRef = db.collection("patients");
+  //get all record in firestore {could not working anymore}
+  // useEffect(() => {
+  //   const db = firebase.firestore();
+  //   const collectionRef = db.collection("patients");
 
-    collectionRef
-      .get()
-      .then((querySnapshot) => {
-        const newData = [];
-        querySnapshot.forEach((doc) => {
-          newData.push({ id: doc.id, ...doc.data() });
-        });
-        setPatientLists(newData);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, []);
+  //   collectionRef
+  //     .get()
+  //     .then((querySnapshot) => {
+  //       const newData = [];
+  //       querySnapshot.forEach((doc) => {
+  //         newData.push({ id: doc.id, ...doc.data() });
+  //       });
+  //       setPatientLists(newData);
+  //     })
+  //     .catch((error) => {
+  //       console.error(error);
+  //     });
+  // }, []);
 
   useEffect(() => {
     patientLists.forEach((element) => {
@@ -57,93 +67,223 @@ const CreateOrdonnance = (props) => {
     return currentYear - yearOfBirth;
   }
 
+  function addMedicineInRTDB(e) {
+    e.preventDefault();
+    const db = getDatabase();
+    push(
+      ref(db, `patients/${patient.nom + " " + patient.prenom}/ordonnances`),
+      {
+        denomination: patient.medicaments.denomination,
+        forme: patient.medicaments.forme,
+        quantite: patient.medicaments.quantite,
+        frequence: patient.medicaments.frequence,
+        duree: patient.medicaments.duree,
+      }
+    );
+  }
+
   return (
     <Container>
-      <Stack gap={2}>
-        <Row>
-          <Card>
-            <Card.Header>Informations sur le patient</Card.Header>
-            <Card.Body>
-              <Stack gap={2}>
-                <Row>
-                  <Col>
-                    <Form.Control
-                      type="text"
-                      placeholder="Nom et Prenom"
-                      value={patient.nom + " " + patient.prenom}
-                      aria-label="Disabled input example"
-                      disabled
-                      readOnly
-                      size="sm"
-                    />
-                  </Col>
-                  <Col>
-                    <Form.Control
-                      type="text"
-                      placeholder="Genre"
-                      value={
-                        patient.gender +
-                        " " +
-                        patientAge(patient.birth) +
-                        " ans"
-                      }
-                      aria-label="Disabled input example"
-                      disabled
-                      readOnly
-                      size="sm"
-                    />
-                  </Col>
-                </Row>
-
-                <Row>
-                  <Col>
-                    <InputGroup size="sm">
-                      <InputGroup.Text id="basic-addon1">
-                        Taille en cm
-                      </InputGroup.Text>
+      <form onSubmit={addMedicineInRTDB}>
+        <Stack gap={2}>
+          <Row>
+            <Card>
+              <Card.Header>Informations sur le patient</Card.Header>
+              <Card.Body>
+                <Stack gap={2}>
+                  <Row>
+                    <Col>
                       <Form.Control
-                        type="number"
-                        min="0"
-                        placeholder="165"
-                        aria-label="Username"
-                        aria-describedby="basic-addon1"
+                        type="text"
+                        placeholder="Nom et Prenom"
+                        value={patient.nom + " " + patient.prenom}
+                        aria-label="Disabled input example"
+                        disabled
+                        readOnly
                         size="sm"
                       />
-                    </InputGroup>
-                  </Col>
-                  <Col>
-                    <InputGroup size="sm">
-                      <InputGroup.Text id="basic-addon1">
-                        Poids en Kg
-                      </InputGroup.Text>
+                    </Col>
+                    <Col>
                       <Form.Control
-                        type="number"
-                        min="0"
-                        placeholder="68"
-                        aria-label="Username"
-                        aria-describedby="basic-addon1"
+                        type="text"
+                        placeholder="Genre"
+                        value={
+                          patient.gender +
+                          " " +
+                          patientAge(patient.birth) +
+                          " ans"
+                        }
+                        aria-label="Disabled input example"
+                        disabled
+                        readOnly
                         size="sm"
                       />
-                    </InputGroup>
-                  </Col>
-                </Row>
-              </Stack>
-            </Card.Body>
-          </Card>
-        </Row>
+                    </Col>
+                  </Row>
 
-        <Row>
-          <Card>
-            <Card.Header>Saisissez les médicaments à prescrire ici</Card.Header>
-            <Card.Body className="mh-25 overflow-auto">
-              <MedicineForm />
-            </Card.Body>
-            <Card.Footer className="text-muted">
-              <Button variant="success">Envoyer l'ordonnance</Button>
-            </Card.Footer>
-          </Card>
-        </Row>
-      </Stack>
+                  <Row>
+                    <Col>
+                      <InputGroup size="sm">
+                        <InputGroup.Text id="basic-addon1">
+                          Taille en cm
+                        </InputGroup.Text>
+                        <Form.Control
+                          type="number"
+                          min="0"
+                          placeholder="165"
+                          aria-label="Username"
+                          aria-describedby="basic-addon1"
+                          size="sm"
+                        />
+                      </InputGroup>
+                    </Col>
+                    <Col>
+                      <InputGroup size="sm">
+                        <InputGroup.Text id="basic-addon1">
+                          Poids en Kg
+                        </InputGroup.Text>
+                        <Form.Control
+                          type="number"
+                          min="0"
+                          placeholder="68"
+                          aria-label="Username"
+                          aria-describedby="basic-addon1"
+                          size="sm"
+                        />
+                      </InputGroup>
+                    </Col>
+                  </Row>
+                </Stack>
+              </Card.Body>
+            </Card>
+          </Row>
+
+          <Row>
+            <Card>
+              <Card.Header>
+                Saisissez les médicaments à prescrire ici
+              </Card.Header>
+              <Card.Body className="mh-25 overflow-auto">
+                {/* Ajouter les médicaments dans la base du patient */}
+                <Card bsclass="medForm">
+                  <Card.Header>Medicine 1</Card.Header>
+                  <Card.Body>
+                    <Container>
+                      <Stack gap={2}>
+                        <Form.Control
+                          type="text"
+                          placeholder="Denomination"
+                          size="sm"
+                          value={patient.medicaments.denomination}
+                          onChange={(event) => {
+                            setPatient({
+                              ...patient,
+                              medicaments: {
+                                ...patient.medicaments,
+                                denomination: event.target.value,
+                              },
+                            });
+                          }}
+                        />
+                        <Form.Control
+                          type="text"
+                          placeholder="Forme"
+                          size="sm"
+                          value={patient.medicaments.forme}
+                          onChange={(event) => {
+                            setPatient({
+                              ...patient,
+                              medicaments: {
+                                ...patient.medicaments,
+                                forme: event.target.value,
+                              },
+                            });
+                          }}
+                        />
+                        <InputGroup size="sm">
+                          <Form.Control
+                            aria-label="First name"
+                            placeholder="Quantité à prendre"
+                            size="sm"
+                            value={patient.medicaments.quantite}
+                            onChange={(event) => {
+                              setPatient({
+                                ...patient,
+                                medicaments: {
+                                  ...patient.medicaments,
+                                  quantite: event.target.value,
+                                },
+                              });
+                            }}
+                          />
+                          <InputGroup.Text>tous les</InputGroup.Text>
+                          <Form.Control
+                            aria-label="Last name"
+                            placeholder="Fréquence"
+                            size="sm"
+                            value={patient.medicaments.frequence}
+                            onChange={(event) => {
+                              setPatient({
+                                ...patient,
+                                medicaments: {
+                                  ...patient.medicaments,
+                                  frequence: event.target.value,
+                                },
+                              });
+                            }}
+                          />
+                        </InputGroup>
+
+                        <InputGroup className="mb-3">
+                          <Form.Control
+                            type="number"
+                            aria-label="Text input with dropdown button"
+                            size="sm"
+                            placeholder="Durée"
+                            value={patient.medicaments.duree}
+                            onChange={(event) => {
+                              setPatient({
+                                ...patient,
+                                medicaments: {
+                                  ...patient.medicaments,
+                                  duree: event.target.value,
+                                },
+                              });
+                            }}
+                          />
+
+                          <DropdownButton
+                            variant="outline-secondary"
+                            title="Jour"
+                            id="input-group-dropdown-2"
+                            align="end"
+                            size="sm"
+                          >
+                            <Dropdown.Item href="#" size="sm">
+                              Jours
+                            </Dropdown.Item>
+                            <Dropdown.Item href="#" size="sm">
+                              Semaines
+                            </Dropdown.Item>
+                            <Dropdown.Item href="#" size="sm">
+                              Mois
+                            </Dropdown.Item>
+                          </DropdownButton>
+                        </InputGroup>
+                      </Stack>
+                    </Container>
+                  </Card.Body>
+                </Card>
+              </Card.Body>
+              <Card.Footer className="text-muted">
+                <Button variant="success" type="submit">
+                  Envoyer l'ordonnance
+                </Button>
+              </Card.Footer>
+            </Card>
+          </Row>
+        </Stack>
+      </form>
     </Container>
   );
 };

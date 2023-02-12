@@ -12,6 +12,8 @@ import {
   Card,
   Button,
 } from "react-bootstrap";
+import { getDatabase, ref, set } from "firebase/database";
+import { useNavigate } from "react-router-dom";
 
 const Signup = (props) => {
   const [email, setEmail] = useState("");
@@ -25,10 +27,15 @@ const Signup = (props) => {
     birth: new Date(),
   });
   const [patientGender, setPatientGender] = useState("homme");
+  const navigate = useNavigate();
 
   const [doctorInfo, setDoctorInfo] = useState({
     nom: "",
     prenom: "",
+    mail: "",
+    specialisation: "",
+    telephone: "",
+    addresse: "",
   });
   const [user, setUser] = useState(null);
 
@@ -49,22 +56,28 @@ const Signup = (props) => {
         console.error(error);
       }
 
-      //add other patient userinfo in firestore
-      console.log(
-        patientInfo.nom,
-        patientInfo.prenom,
-        patientInfo.birth,
-        patientGender
-      );
+      //add other patient userinfo in realtime db
       try {
-        firebase.firestore().collection("patients").add({
+        const db = getDatabase();
+        set(ref(db, `patients/${patientInfo.nom + " " + patientInfo.prenom}`), {
           mail: email,
           nom: patientInfo.nom,
           prenom: patientInfo.prenom,
           birth: patientInfo.birth,
           gender: patientGender,
-          ordonnances: [],
+          ordonnances: [
+            {
+              denomination: "",
+              forme: "",
+              quantite: "",
+              frequence: "",
+              duree: 0,
+            },
+          ],
         });
+        localStorage.setItem("user", "patient");
+        localStorage.setItem("name", patientInfo.nom);
+        localStorage.setItem("isLoggedIn", "true");
       } catch (error) {
         console.error(error);
       }
@@ -84,12 +97,7 @@ const Signup = (props) => {
     return (
       <Container className="bordure">
         {user ? (
-          <div>
-            <h1>Hello, {user.email}</h1>
-            <Button variant="primary" onClick={() => firebase.auth().signOut()}>
-              Sign out
-            </Button>
-          </div>
+          <>{navigate("/welcomePatient", { replace: true })}</>
         ) : (
           <form onSubmit={handlePatientSignUp}>
             <Card>
@@ -228,9 +236,14 @@ const Signup = (props) => {
       //add other doctorInfo in firestore
       console.log(doctorInfo.nom, doctorInfo.prenom);
       try {
-        firebase.firestore().collection("doctors").add({
+        const db = getDatabase();
+        set(ref(db, `doctors/${doctorInfo.nom + " " + doctorInfo.prenom}`), {
           nom: doctorInfo.nom,
           prenom: doctorInfo.prenom,
+          mail: email,
+          specialisation: doctorInfo.specialisation,
+          telephone: doctorInfo.telephone,
+          addresse: doctorInfo.addresse,
         });
       } catch (error) {
         console.error(error);
@@ -287,6 +300,43 @@ const Signup = (props) => {
                     }
                     size="sm"
                   />
+                  <Form.Control
+                    type="text"
+                    placeholder="Spécialisation"
+                    value={doctorInfo.specialisation}
+                    onChange={(event) =>
+                      setDoctorInfo({
+                        ...doctorInfo,
+                        specialisation: event.target.value,
+                      })
+                    }
+                    size="sm"
+                  />
+                  <Form.Control
+                    type="text"
+                    placeholder="Telephone"
+                    value={doctorInfo.telephone}
+                    onChange={(event) =>
+                      setDoctorInfo({
+                        ...doctorInfo,
+                        telephone: event.target.value,
+                      })
+                    }
+                    size="sm"
+                  />
+                  <Form.Control
+                    type="text"
+                    placeholder="Adresse"
+                    value={doctorInfo.addresse}
+                    onChange={(event) =>
+                      setDoctorInfo({
+                        ...doctorInfo,
+                        addresse: event.target.value,
+                      })
+                    }
+                    size="sm"
+                  />
+
                   <Button variant="success" type="submit">
                     Créer mon compte
                   </Button>

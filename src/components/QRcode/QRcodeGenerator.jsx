@@ -17,7 +17,7 @@ const QRcodeGenerator = React.forwardRef((props, ref) => {
     document
       .getElementById("export-button")
       .addEventListener("click", exportQRCode);
-  }, []);
+  }, [ref]);
 
   return (
     <Container>

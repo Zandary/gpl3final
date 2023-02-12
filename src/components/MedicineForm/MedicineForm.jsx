@@ -1,11 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import firebase from "../../firebase";
 import "firebase/compat/firestore";
 import {
   Container,
   Card,
-  Row,
-  Col,
   Stack,
   Form,
   InputGroup,
@@ -15,8 +13,18 @@ import {
 import "./MedicineForm.css";
 
 const MedicineForm = (props) => {
+  //firestore initialisation
   const db = firebase.firestore();
   const collectionRef = db.collection("patients");
+
+  //real time db
+  const [medicine, setMedicine] = useState({
+    denomination: "",
+    duree: "",
+    forme: "",
+    frequence: "",
+    quantite: "",
+  });
 
   const addMedicine = (field, value, newData) => {
     collectionRef
@@ -48,10 +56,25 @@ const MedicineForm = (props) => {
       });
   };
 
-  // Example usage
-  addMedicine("mail", "tommy@yahoo.com", {
-    ordonnances: ["newValue2", "newValue2"],
-  });
+  // const addMedicineInRTDB = (props.patient) => {
+  //   const db = getDatabase();
+  //       set(ref(db, `patients/${patientInfo.nom + " " + patientInfo.prenom}`), {
+  //         mail: email,
+  //         nom: patientInfo.nom,
+  //         prenom: patientInfo.prenom,
+  //         birth: patientInfo.birth,
+  //         gender: patientGender,
+  //         ordonnances: [
+  //           {
+  //             denomination: "",
+  //             forme: "",
+  //             quantite: "",
+  //             frequence: "",
+  //             duree: 0,
+  //           },
+  //         ],
+  //       });
+  // }
 
   return (
     <Card bsclass="medForm">
