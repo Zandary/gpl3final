@@ -15,32 +15,13 @@ const Welcome = () => {
   const [patientLists, setPatientLists] = useState([]);
   const [patient, setPatient] = useState({});
 
-  // useEffect(() => {
-  //   const db = firebase.firestore();
-  //   const collectionRef = db.collection("patients");
-
-  //   collectionRef
-  //     .get()
-  //     .then((querySnapshot) => {
-  //       const newData = [];
-  //       querySnapshot.forEach((doc) => {
-  //         newData.push({ id: doc.id, ...doc.data() });
-  //       });
-  //       setPatientLists(newData);
-  //     })
-  //     .catch((error) => {
-  //       console.error(error);
-  //     });
-  // }, []);
-
   const handleChange = (event) => {
     setSearchedPatient(event.target.value);
   };
 
   //Getting all patients list
-  const dbRef = ref(getDatabase());
   useEffect(() => {
-    get(child(dbRef, "patients"))
+    get(child(ref(getDatabase()), "patients"))
       .then((snapshot) => {
         if (snapshot.exists()) {
           console.log(snapshot.val());
@@ -69,7 +50,7 @@ const Welcome = () => {
     );
     console.log(patientLists, searchedPatient);
     setSearchResults(results);
-  }, [searchedPatient, patientLists]);
+  }, []);
 
   return (
     <Container className="mt-2">

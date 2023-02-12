@@ -10,7 +10,8 @@ function NavBarre() {
       <Container>
         <Navbar.Brand href="/">
           {" "}
-          <img src={gplIcon} className="Logo" alt="Logo" /> E-Pharma
+          <img src={gplIcon} className="Logo" alt="Logo" />
+          E-Pharma
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">

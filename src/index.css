@@ -8,6 +8,10 @@ body {
   height: 100vh !important;
 }
 
+.maxHeight {
+  height: 100vh !important;
+}
+
 #root {
   height: 100vh !important;
 }

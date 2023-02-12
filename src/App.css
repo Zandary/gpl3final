@@ -4,6 +4,10 @@
   width: 100vw !important;
 }
 
+.maxHeight {
+  height: 100vh !important;
+}
+
 .Logo {
   height: 4vmin;
   pointer-events: none;
@@ -29,3 +33,4 @@
 .App-link {
   color: #61dafb;
 }
+

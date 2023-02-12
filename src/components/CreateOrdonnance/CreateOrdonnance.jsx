@@ -32,36 +32,7 @@ const CreateOrdonnance = (props) => {
       doctor: "",
     },
   });
-  console.log(patient.nom, patient.prenom);
-  //get all record in firestore {could not working anymore}
-  // useEffect(() => {
-  //   const db = firebase.firestore();
-  //   const collectionRef = db.collection("patients");
-
-  //   collectionRef
-  //     .get()
-  //     .then((querySnapshot) => {
-  //       const newData = [];
-  //       querySnapshot.forEach((doc) => {
-  //         newData.push({ id: doc.id, ...doc.data() });
-  //       });
-  //       setPatientLists(newData);
-  //     })
-  //     .catch((error) => {
-  //       console.error(error);
-  //     });
-  // }, []);
-
-  // useEffect(() => {
-  //   patientLists.forEach((element) => {
-  //     if (
-  //       (element.nom + " " + element.prenom).toLowerCase() ===
-  //       props.patient.toLowerCase()
-  //     ) {
-  //       setPatient(element);
-  //     }
-  //   });
-  // }, [props.patient, patientLists]);
+  console.log("In createOrdonnance: ", props.patientNom, props.patientPrenom);
 
   function patientAge(params) {
     let currentYear = new Date().getFullYear();
