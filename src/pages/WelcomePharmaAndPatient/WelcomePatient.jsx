@@ -16,17 +16,18 @@ const WelcomePatient = () => {
   const [patient, setPatient] = useState({});
   const [currentUser, setCurrentUser] = useState({});
   const [ordonnances, setOrdonnances] = useState([]);
+  const [prescription, setPrescription] = useState([]);
 
   console.log(localStorage.getItem("email"));
 
   const database = firebase.database();
   const ref = database.ref("patients");
+  let ord = [];
 
   useEffect(() => {
     ref.on("value", (snapshot) => {
       if (snapshot.exists()) {
         let tmp = [];
-        let ord = [];
         let currentItem = snapshot.val();
         console.log(currentItem);
         for (const key in currentItem) {
@@ -43,6 +44,7 @@ const WelcomePatient = () => {
             }
 
             setOrdonnances(ord);
+            setPrescription(JSON.parse(JSON.stringify(Array(ordonnances)[0])));
           } else {
             console.log("ERROR BE MATSIRAVINA");
           }
@@ -54,12 +56,25 @@ const WelcomePatient = () => {
   }, []);
 
   console.log(localStorage.getItem("email"));
-  console.log(ordonnances);
-  console.log(currentUser.ordonnances);
+  console.log(JSON.parse(JSON.stringify(Array(ordonnances)[0])));
+  let tab = JSON.parse(JSON.stringify(Array(ordonnances)[0]));
+
+  console.log(prescription[0].denomination);
+
+  function ItemList({ items }) {
+    let listItems = [];
+
+    items.forEach((item) => {
+      listItems.push(
+        <ListGroup.Item key={item.id}>{item.denomination}</ListGroup.Item>
+      );
+    });
+    return <ListGroup>{listItems}</ListGroup>;
+  }
 
   return (
     <Container className="mt-2">
-      <h3>Bonjour {currentUser.prenom}</h3>;
+      <h3>Bonjour {currentUser.prenom}</h3>
       <p>Voici la liste de vos dernières ordonnances</p>
       <Row>
         <Accordion>
@@ -89,11 +104,12 @@ const WelcomePatient = () => {
                 </Row>
                 <Row className="pt-3">
                   <ListGroup>
-                    {ordonnances.map((item) => (
+                    {/* {prescription.map((item) => (
                       <ListGroup.Item key={item.id}>
-                        {item.designation + " " + item.quantite}
+                        {String(item.designation)}
                       </ListGroup.Item>
-                    ))}
+                    ))} */}
+                    <ItemList items={prescription} />
                   </ListGroup>
                 </Row>
                 <Row>
