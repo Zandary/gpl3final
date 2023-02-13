@@ -8,12 +8,12 @@ body {
   height: 100vh !important;
 }
 
-.maxHeight {
-  height: 100vh !important;
-}
+html, body {margin: 0; height: 100%; overflow: hidden}
 
 #root {
-  height: 100vh !important;
+  display: flex;
+  flex-flow: column;
+  height: 100% !important;
 }
 
 code {

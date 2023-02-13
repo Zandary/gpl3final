@@ -3,10 +3,11 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import gplIcon from "../assets/icons/logo512.png";
+import "./NavBarre.css";
 
 function NavBarre() {
   return (
-    <Navbar bg="light" className="shadow p-1 mb-3 bg-white rounded" expand="lg">
+    <Navbar bg="light" className="shadow p-1 bg-white rounded" expand="lg">
       <Container>
         <Navbar.Brand href="/">
           {" "}

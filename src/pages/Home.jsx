@@ -5,13 +5,14 @@ import "./Home.css";
 import { Container, Row, Col } from "react-bootstrap";
 
 const Home = (props) => {
-  const user = props.user ? props.user : localStorage.getItem();
+  const user = props.user;
+  localStorage.setItem("user", "user");
   return (
     <Container className="Home">
       <h1>Bienvenue sur E-Pharma</h1>
       <Row>
         <Col>
-          <Login user={user} />
+          <Login user={props.user} />
         </Col>
         <Col>
           <Signup user={props.user} />

@@ -10,6 +10,8 @@ import Welcome from './pages/Welcome/Welcome';
 import WelcomeWrapper from './pages/WelcomePharmaAndPatient/WelcomeWrapper';
 import NavBarre from './components/NavBarre/NavBarre';
 import RealTimeDB from './components/RealTimeDB/RealTimeDB';
+import Movedb from './components/Movedb/Movedb';
+
 
 function App() {
   return (
@@ -26,6 +28,8 @@ function App() {
           <Route path="/welcomePharma" element={<WelcomeWrapper user='pharma'/>} />
           <Route path="/welcomePatient" element={<WelcomeWrapper user='patient'/>} />
           <Route path="/realtime" element={<RealTimeDB/>} />
+          <Route path="/movedb" element={<Movedb/>} />
+
         </Routes>
       </Router>
     </div>

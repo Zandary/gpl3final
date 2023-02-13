@@ -1,3 +1,14 @@
 .maxHeight {
-  height: 100vh !important;
+  height: 50vh !important;
+}
+
+.fullheight {
+  display: flex;
+  flex-flow: column;
+  flex: 1 1 auto;
+  height: 100% !important;
+}
+
+.box .raw.content {
+  flex: 1 1 auto;
 }

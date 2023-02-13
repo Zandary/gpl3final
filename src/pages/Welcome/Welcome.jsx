@@ -26,11 +26,13 @@ const Welcome = () => {
         if (snapshot.exists()) {
           console.log(snapshot.val());
           let tmp = [];
-          for (const key in snapshot.val()) {
-            tmp.push(snapshot.val()[key]);
+          let currentItem = snapshot.val();
+          for (const key in currentItem) {
+            tmp.push(JSON.parse(JSON.stringify(currentItem[key])));
           }
+
           setPatientLists(tmp);
-          console.log(patientLists);
+          console.log(patientLists, tmp);
         } else {
           console.log("No data available");
         }
@@ -41,16 +43,21 @@ const Welcome = () => {
   }, []);
 
   useEffect(() => {
+    console.log("####", patientLists);
     const results = patientLists.filter(
       (item) =>
-        (item.prenom.toLowerCase().includes(searchedPatient.toLowerCase()) &&
+        (String(item.prenom)
+          .toLowerCase()
+          .includes(searchedPatient.toLowerCase()) &&
           searchedPatient !== "") ||
-        (item.nom.toLowerCase().includes(searchedPatient.toLowerCase()) &&
+        (String(item.nom)
+          .toLowerCase()
+          .includes(searchedPatient.toLowerCase()) &&
           searchedPatient !== "")
     );
     console.log(patientLists, searchedPatient);
     setSearchResults(results);
-  }, []);
+  }, [searchedPatient]);
 
   return (
     <Container className="mt-2">

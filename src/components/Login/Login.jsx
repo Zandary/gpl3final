@@ -10,7 +10,9 @@ function Login(props) {
   const navigate = useNavigate();
 
   const handleSignIn = async (event) => {
+    localStorage.setItem("user", "medecin");
     event.preventDefault();
+
     try {
       //Sign in the user with their email and password
       firebase
@@ -18,16 +20,14 @@ function Login(props) {
         .signInWithEmailAndPassword(email, password)
         .then(function () {
           // Redirect to the personalized welcome page
-          if (localStorage.getItem("user") === "doctor") {
+          if (props.user === "doctor") {
             navigate("/welcome", { replace: true });
-          } else {
+          } else if (props.user === "patient") {
             navigate("/welcomePatient", { replace: true });
           }
 
-          // Get the user's ID token
           localStorage.setItem("email", email);
           localStorage.setItem("isLoggedIn", "true");
-          localStorage.setItem("user", "medecin");
         });
 
       // const idToken = await user.getIdToken();

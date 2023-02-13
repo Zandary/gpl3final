@@ -95,7 +95,7 @@ const Signup = (props) => {
     }
 
     return (
-      <Container className="bordure">
+      <Container className="bordure mt-2">
         {user ? (
           <>{navigate("/welcomePatient", { replace: true })}</>
         ) : (
@@ -174,7 +174,7 @@ const Signup = (props) => {
 
                   <Container>
                     <Row>
-                      <Col>
+                      <Col className="myRadio">
                         <input
                           type="radio"
                           id="h"
@@ -184,11 +184,9 @@ const Signup = (props) => {
                             setPatientGender(event.target.value);
                           }}
                         />
-                      </Col>
-                      <Col>
                         <label htmlFor="h">Homme</label>
                       </Col>
-                      <Col>
+                      <Col className="myRadio">
                         <input
                           type="radio"
                           id="f"
@@ -198,8 +196,6 @@ const Signup = (props) => {
                             setPatientGender(event.target.value);
                           }}
                         />
-                      </Col>
-                      <Col>
                         <label htmlFor="f">Femme</label>
                       </Col>
                     </Row>

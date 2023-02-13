@@ -1,13 +1,66 @@
-import React from "react";
-import { Container, Accordion, Row, Col, Button } from "react-bootstrap";
+import React, { useState, useEffect } from "react";
+import {
+  Container,
+  Accordion,
+  Row,
+  Col,
+  Button,
+  ListGroup,
+} from "react-bootstrap";
 import MyModal from "../../components/Modal/MyModal";
+import firebase from "../../firebase";
+import "firebase/compat/database";
 
 const WelcomePatient = () => {
-  const [modalShow, setModalShow] = React.useState(false);
+  const [modalShow, setModalShow] = useState(false);
+  const [patient, setPatient] = useState({});
+  const [currentUser, setCurrentUser] = useState({});
+  const [ordonnances, setOrdonnances] = useState([]);
+
+  console.log(localStorage.getItem("email"));
+
+  const database = firebase.database();
+  const ref = database.ref("patients");
+
+  useEffect(() => {
+    ref.on("value", (snapshot) => {
+      if (snapshot.exists()) {
+        let tmp = [];
+        let ord = [];
+        let currentItem = snapshot.val();
+        console.log(currentItem);
+        for (const key in currentItem) {
+          tmp.push(JSON.parse(JSON.stringify(currentItem[key])));
+        }
+        console.log(tmp);
+        tmp.forEach((account) => {
+          if (account.mail === localStorage.getItem("email")) {
+            setCurrentUser(account);
+
+            for (let key in account.ordonnances) {
+              console.log(Array(account.ordonnances)[0][key]);
+              ord.push(Array(account.ordonnances)[0][key]);
+            }
+
+            setOrdonnances(ord);
+          } else {
+            console.log("ERROR BE MATSIRAVINA");
+          }
+        });
+      } else {
+        console.log("No data available");
+      }
+    });
+  }, []);
+
+  console.log(localStorage.getItem("email"));
+  console.log(ordonnances);
+  console.log(currentUser.ordonnances);
 
   return (
-    <Container>
-      <div>Welcome {localStorage.getItem("name")}</div>;
+    <Container className="mt-2">
+      <h3>Bonjour {currentUser.prenom}</h3>;
+      <p>Voici la liste de vos dernières ordonnances</p>
       <Row>
         <Accordion>
           <Accordion.Item eventKey="0">
@@ -35,12 +88,13 @@ const WelcomePatient = () => {
                   </Row>
                 </Row>
                 <Row className="pt-3">
-                  <ul className="list-group">
-                    <li className="list-group-item">Placeholder text</li>
-                    <li className="list-group-item">Placeholder text</li>
-                    <li className="list-group-item">Placeholder text</li>
-                    <li className="list-group-item">Placeholder text</li>
-                  </ul>
+                  <ListGroup>
+                    {ordonnances.map((item) => (
+                      <ListGroup.Item key={item.id}>
+                        {item.designation + " " + item.quantite}
+                      </ListGroup.Item>
+                    ))}
+                  </ListGroup>
                 </Row>
                 <Row>
                   <Button type="submit" onClick={() => setModalShow(true)}>

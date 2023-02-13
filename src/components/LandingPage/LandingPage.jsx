@@ -6,10 +6,10 @@ import "../../index.css";
 
 const LandingPage = () => {
   return (
-    <div>
-      <Container className="maxHeight">
+    <div className="fullheight pt-5">
+      <Container className="fullheight">
         <Row className="maxHeight">
-          <Col className="maxHeight align-items-center">
+          <Col className="maxHeight fullheight align-items-center ">
             <Card className="text-center maxHeight d-inline-block">
               <Card.Body className="maxHeight">
                 <Card.Title>Docteur</Card.Title>
@@ -39,7 +39,7 @@ const LandingPage = () => {
             </Card>
           </Col>
           <Col>
-            <Card className="text-center">
+            <Card className="text-center maxHeight my-auto">
               <Card.Body>
                 <Card.Title>Patient</Card.Title>
                 <Card.Text>
