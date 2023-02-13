@@ -8,6 +8,9 @@ const LandingPage = () => {
   return (
     <div className="fullheight pt-5">
       <Container className="fullheight">
+        <h3>SITE INTERMÉDIAIRE ENTRE LES PHARMACIES, LES MÉDECINS ET LEURS PATIENTS
+        </h3>
+
         <Row className="maxHeight">
           <Col className="maxHeight fullheight align-items-center ">
             <Card className="text-center maxHeight d-inline-block">
@@ -57,7 +60,17 @@ const LandingPage = () => {
             </Card>
           </Col>
         </Row>
-        <p>Test</p>
+        <p>Nous nous soutenons les uns les autres pour : </p>
+        <Row>
+          <Col>Réduction des problèmes de recherche des pharmacies la nuit.</Col>
+          <Col>La recherche des médocs est très rapide</Col>
+          <Col>Facilité de suivre les traitements</Col>
+        </Row>
+        <Row>
+          <Col>Réduction des frais de déplacement.</Col>
+          <Col>Diminution de perte de temps</Col>
+          <Col>Développement du marché des pharmacies</Col>
+        </Row>
       </Container>
     </div>
   );
